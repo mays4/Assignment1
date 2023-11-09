@@ -6,21 +6,13 @@ import java.util.ArrayList;
 
 public class Calculator {
 
-    private final ArrayList<String> myList;
-     private int errorMsg;
-     private  int num1 =0;
-     private int num2 =0;
-//   int flag = 0;
-     private  String operand;
-     boolean isDividedByZero =false;
-    //     String value;
+    ArrayList<String> myList;
+      int errorMsg;
+
     public Calculator(int errorMsg) {
-//        this.value = value;
+
         this.errorMsg = errorMsg;
-        this.myList = new ArrayList<String>();
-    }
-    public int getPayment_method() {
-        return errorMsg;
+        this.myList = new ArrayList<>();
     }
 
     public int validate(String value) {
@@ -48,15 +40,13 @@ public class Calculator {
         }
         return flag;
     }
-
-
     private boolean isNumeric(String str) {
         return str.matches("-?\\d+(\\.\\d+)?");
     }
 
     public void push(String value) {
             myList.add(value);
-            Log.d("list", myList.toString());
+
     }
     public int calculate() {
         if (myList.size() == 1) {
