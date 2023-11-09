@@ -16,6 +16,8 @@
     <string name="zero">0</string>
     <string name="equal">=</string>
     <string name="clear">C</string>
-    <string id="value" name="value">0</string>
     <string name="history">Advance - With History</string>
+    <string name="default_value">0</string>
+
+
 </resources>
