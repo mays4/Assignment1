@@ -256,11 +256,12 @@
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:textSize="20sp"
-        android:backgroundTint="@color/holo_purple"
+        android:background="@color/holo_purple"
         android:layout_weight="1"
         android:text="@string/history"
         android:textColor="@color/black"
         android:layout_height="wrap_content"/>
+
 
 
     <TextView

@@ -87,11 +87,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String msg = "You should start with a number, not an operator like " + operator;
                 Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
             } else if (errorCode == 2) {
-                String msg = " you have error not allow to have two integer in row";
+                String msg = " you have error not allow to have add two digit in row";
                 Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                 // Your logic for the third error condition
             } else if (errorCode == 3) {
-                String msg = " you have error not allow to have two operand in row";
+                String msg = " you have error not allow to have two operator in row";
                 Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
             } else if (view.getId() == R.id.one || view.getId() == R.id.two
                     || view.getId() == R.id.three || view.getId() == R.id.four ||
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     isNewNum = true;
                     String resultAsString = String.valueOf(result);
-                    if (Integer.parseInt(resultAsString) == -1) {
+                    if (Integer.parseInt(resultAsString) == Integer.MAX_VALUE) {
                         String msg = "Can not divide by zero";
                         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                         enteredValue.setText("Error");

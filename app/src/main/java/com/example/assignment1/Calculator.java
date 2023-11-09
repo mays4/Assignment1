@@ -59,6 +59,9 @@ public class Calculator {
             Log.d("list", myList.toString());
     }
     public int calculate() {
+        if (myList.size() == 1) {
+            return Integer.parseInt(myList.get(0));
+        }
         int result = 0;
         while (myList.size() > 1) {
             int num1 = Integer.parseInt(myList.remove(0));
@@ -78,11 +81,12 @@ public class Calculator {
                     break;
                 case "/":
                     if(num2 == 0){
-
-                        return -1;
+                        return Integer.MAX_VALUE;
                     }
                     result = num1 / num2;
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + operator);
             }
             if (myList.size() > 0) {
                 myList.add(0, String.valueOf(result));
