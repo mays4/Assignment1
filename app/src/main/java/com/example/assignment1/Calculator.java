@@ -1,90 +1,83 @@
 package com.example.assignment1;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 public class Calculator {
 
     ArrayList<String> myList;
-      int errorMsg;
 
-    public Calculator(int errorMsg) {
 
-        this.errorMsg = errorMsg;
+    public Calculator() {
+
+//        this.errorMsg = errorMsg;
         this.myList = new ArrayList<>();
     }
 
-    public int validate(String value) {
-        int flag = 0;
-        if (myList.isEmpty()) {
-            if (value.equals("+")|| value.equals("-")|| value.equals("*")|| value.equals("/")) {
-                // Error: First input is an operator
-                flag = 1;
-            }
-        }
-        else {
-            String lastValue = myList.get(myList.size() - 1);
-            if (isNumeric(lastValue)) {
-                if (isNumeric(value)) {
-                    // Error: Two numbers in a row
-                    flag = 2;
-                }
-            }
-            else {
-                if (!isNumeric(value)) {
-                    // Error: Two operands in a row
-                    flag = 3;
-                }
-            }
-        }
-        return flag;
-    }
     private boolean isNumeric(String str) {
         return str.matches("-?\\d+(\\.\\d+)?");
     }
 
     public void push(String value) {
-            myList.add(value);
-
+        myList.add(value);
     }
     public int calculate() {
         if (myList.size() == 1) {
-            return Integer.parseInt(myList.get(0));
+            if (isNumeric(myList.get(0))) {
+                return Integer.parseInt(myList.get(0));
+            } else {
+                //  In case first input not a digit
+                return -101;
+            }
         }
         int result = 0;
-        while (myList.size() > 1) {
-            int num1 = Integer.parseInt(myList.remove(0));
-            String operator = myList.remove(0);
-            int num2 = Integer.parseInt(myList.remove(0));
-            Log.d("list of the operation",myList.toString());
+        // In case first input was not digit
+        if (myList.get(0).equals("+") || myList.get(0).equals("-") || myList.get(0).equals("*") || myList.get(0).equals("/")) {
+            return -101;
+            // In case pressed equal without finishing operation
+        } else if (myList.get(myList.size() - 1).equals("+") ||myList.get(myList.size() - 1).equals("-")||
+                myList.get(myList.size() - 1).equals("*")||myList.get(myList.size() - 1).equals("/")) {
+            return -104;
+        }
 
-            switch (operator) {
+        for (int n = 0; n < myList.size() - 1; n++) {
+            String current = myList.get(n);
+            if (isNumeric(current)) {
+                if (n + 1 < myList.size() && isNumeric(myList.get(n + 1))) {
+                    return -102;
+                }
+                result = Integer.parseInt(current);
+                continue;
+            }
+
+            String next = myList.get(n + 1);
+            // In case two operator added in row
+            if (!isNumeric(next)) {
+                return -103;
+            }
+
+            int nextValue = Integer.parseInt(next);
+            switch (current) {
                 case "+":
-                    result = num1 + num2;
+                    result += nextValue;
                     break;
                 case "-":
-                    result = num1 - num2;
+                    result -= nextValue;
                     break;
                 case "*":
-                    result = num1 * num2;
+                    result *= nextValue;
                     break;
                 case "/":
-                    if(num2 == 0){
+                    if (nextValue == 0) {
+                        // Error: Divide by zero
                         return Integer.MAX_VALUE;
                     }
-                    result = num1 / num2;
+                    result /= nextValue;
                     break;
                 default:
-                    throw new IllegalStateException("Unexpected value: " + operator);
-            }
-            if (myList.size() > 0) {
-                myList.add(0, String.valueOf(result));
+                    // Error: Invalid operator
+                    return -104;
             }
         }
         return result;
     }
-
-
-
 }

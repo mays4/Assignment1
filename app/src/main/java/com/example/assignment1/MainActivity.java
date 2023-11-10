@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ArrayList<String> listOfHistory;
      Calculator calculatorObj;
-    int errorMsg;
+//    int errorMsg;
     boolean isHistory = false;
     boolean isNewNum =false;
     @Override
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         divide_btn.setOnClickListener(this);
         clear_btn.setOnClickListener(this);
         history_btn.setOnClickListener(this);
-        calculatorObj = new Calculator(errorMsg);
+        calculatorObj = new Calculator();
        listOfHistory =((myApp)getApplication()).getListOfHistory();
 
     }
@@ -77,24 +78,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view.getId() == R.id.clear) {
                 enteredValue.setText("");
                 isNewNum = false;
-                calculatorObj = new Calculator(errorMsg);
+                calculatorObj = new Calculator();
         } else {
-            int errorCode = calculatorObj.validate(((Button) view).getText().toString());
-            //  Error toast when trying to start with operator
-            if (errorCode == 1) {
-                String operator = ((Button) view).getText().toString();
-                String msg = "You should start with a number, not an operator like " + operator;
-                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-                //  logic for the second error condition when trying to add digit after exiting digit
-            } else if (errorCode == 2) {
-                String msg = " you have error not allow to have add two digit in row";
-                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-                //  logic for the third error condition when trying to add operator after exiting operator
-            } else if (errorCode == 3) {
-                String msg = " you have error not allow to have two operator in row";
-                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-                // pressing button
-            } else if (view.getId() == R.id.one || view.getId() == R.id.two
+
+                if (view.getId() == R.id.one || view.getId() == R.id.two
                     || view.getId() == R.id.three || view.getId() == R.id.four ||
                     view.getId() == R.id.five || view.getId() == R.id.six || view.getId() == R.id.seven
                     || view.getId() == R.id.eight || view.getId() == R.id.nine || view.getId() == R.id.zero
@@ -117,12 +104,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     isNewNum = true;
                     String resultAsString = String.valueOf(result);
+                    Log.d("try",resultAsString);
                     // in case divided by zero getting error message
                     if (Integer.parseInt(resultAsString) == Integer.MAX_VALUE) {
                         String msg = "Can not divide by zero";
                         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                         enteredValue.setText("Error");
-                    } else {
+                    } else if (Integer.parseInt(resultAsString) == -101){
+                        String msg = "You should start with a number, not an operator  ";
+               Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                    }
+                    else if (Integer.parseInt(resultAsString) == -102){
+                        String msg = " you have error not allow to have add two digit in row";
+                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                    }
+                    else if (Integer.parseInt(resultAsString) == -103){
+                        String msg = " you have error not allow to have two operator in row";
+                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                    }else if (Integer.parseInt(resultAsString) == -104){
+                        String msg = " Invalid operation";
+                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                    }
+                    else {
                         enteredValue.setText(enteredValue.getText() + "=" + resultAsString);
                         if (isHistory) {
                             String currentDisplayValue = enteredValue.getText().toString();
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 enteredValue.setText("");
                 isNewNum = false;
-                calculatorObj = new Calculator(errorMsg);
+                calculatorObj = new Calculator();
             } else {
                 throw new IllegalStateException("Unexpected value: ");
             }

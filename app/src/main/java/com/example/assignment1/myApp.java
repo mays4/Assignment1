@@ -11,8 +11,6 @@ public class myApp extends Application {
         }
         return listOfHistory;
     }
-
-
     ArrayList<String> listOfHistory;
 
     int index = 0;
