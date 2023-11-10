@@ -41,8 +41,11 @@ public class Calculator {
             //In Case two digit in row
             if (isNumeric(myList.get(0)) && isNumeric(myList.get(1))) {
                 return -102;
-            }  else {
-                try {
+            }  else if(!isNumeric(myList.get(1)) && !isNumeric(myList.get(2))) {
+                return -103;
+            }
+            else {
+
                     int num1 = Integer.parseInt(myList.remove(0));
                     String operator = myList.remove(0);
                     if (myList.size() == 0) {
@@ -72,10 +75,6 @@ public class Calculator {
                     if (!myList.isEmpty()) {
                         myList.add(0, String.valueOf(result));
                     }
-                } catch (NumberFormatException e) {
-                    // Handle the case where a non-numeric string is present
-                    return -103;
-                }
             }
         }
         return result;
