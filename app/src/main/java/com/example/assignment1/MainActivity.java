@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        listOfHistory =((myApp)getApplication()).getListOfHistory();
 
     }
-
     @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View view) {
@@ -104,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     isNewNum = true;
                     String resultAsString = String.valueOf(result);
-                    Log.d("try",resultAsString);
                     // in case divided by zero getting error message
                     if (Integer.parseInt(resultAsString) == Integer.MAX_VALUE) {
                         String msg = "Can not divide by zero";
